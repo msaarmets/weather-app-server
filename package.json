@@ -1,0 +1,24 @@
+{
+	"name": "weather-forecast-app",
+	"version": "1.0.0",
+	"main": "app.js",
+	"author": "Märt Saarmets",
+	"license": "MIT",
+	"private": false,
+	"scripts": {
+		"start": "nodemon app/app.js",
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"initDb": "node scripts/createDb.js",
+		"downloadCitiesList": "node scripts/downloadCitiesList.js",
+		"initialize": "yarn install && yarn initDb && yarn downloadCitiesList"
+	},
+	"dependencies": {
+		"apollo-server": "^2.18.2",
+		"dotenv": "^8.2.0",
+		"graphql": "^15.3.0",
+		"sqlite3": "^5.0.0"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.4"
+	}
+}

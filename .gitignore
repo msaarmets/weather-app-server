@@ -1,0 +1,5 @@
+node_modules
+app/city.list.json
+app/db/*.db
+yarn-error.log
+.env
