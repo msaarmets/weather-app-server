@@ -11,8 +11,7 @@ const tableQuery = `CREATE TABLE IF NOT EXISTS "cities" (
 	"wind" TEXT,
 	"humidity" TEXT,
 	"created" TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	"modified" TEXT,
-	"deleted" TEXT
+	"modified" TEXT
 	);`;
 
 const triggerQuery = `

@@ -2,7 +2,9 @@ const { gql } = require("apollo-server");
 
 const typeDefs = gql`
 	type City {
+		id: ID
 		name: String
+		country: String
 		temp: String
 		wind: String
 		humidity: String
@@ -12,10 +14,11 @@ const typeDefs = gql`
 		cities: [City]
 	}
 	type Query {
-		countries(country: String): [Country]
+		Countries(country: String): [Country]
+		Cities: [City]
 	}
 	type Mutation {
-		addCity(city: String!, country: String!): City
+		AddCity(city: String!, country: String!): City
 	}
 `;
 

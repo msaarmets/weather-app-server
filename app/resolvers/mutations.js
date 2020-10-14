@@ -1,7 +1,7 @@
 const sqlite = require("../db");
 const { getCityWeather } = require("../api-queries");
 
-const addCity = async (parent, args, context, info) => {
+const AddCity = async (parent, args, context, info) => {
 	const db = new sqlite();
 
 	// Check if this city already exists in database
@@ -39,7 +39,7 @@ const addCity = async (parent, args, context, info) => {
 	// Get the values for the response
 	const res = await db.sqlQuery(
 		"SELECT",
-		"SELECT name, country, temp, wind, humidity FROM cities WHERE id=?",
+		"SELECT id, name, country, temp, wind, humidity FROM cities WHERE id=?",
 		[id]
 	);
 
@@ -48,6 +48,7 @@ const addCity = async (parent, args, context, info) => {
 	return res.length === 0
 		? {}
 		: {
+				id: res[0].id,
 				name: res[0].name,
 				temp: res[0].temp,
 				wind: res[0].wind,
@@ -56,5 +57,5 @@ const addCity = async (parent, args, context, info) => {
 };
 
 module.exports = {
-	addCity
+	AddCity
 };
