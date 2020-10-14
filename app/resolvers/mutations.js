@@ -56,6 +56,23 @@ const AddCity = async (parent, args, context, info) => {
 		  };
 };
 
+const RemoveCity = async (parent, args, context, info) => {
+	try {
+		const db = new sqlite();
+		const res = await db.sqlQuery("DELETE", "DELETE FROM cities WHERE id=?", [
+			args.id
+		]);
+		if (res === 1) {
+			return true;
+		} else {
+			return new Error("City is already deleted from database");
+		}
+	} catch (e) {
+		return new Error(e.message);
+	}
+};
+
 module.exports = {
-	AddCity
+	AddCity,
+	RemoveCity
 };
