@@ -1,4 +1,5 @@
 const cityList = require("../city.list.json");
+const { addCity } = require("./mutations");
 
 const resolvers = {
 	Query: {
@@ -22,6 +23,9 @@ const resolvers = {
 				return { name: el };
 			});
 		}
+	},
+	Mutation: {
+		addCity
 	},
 	Country: {
 		cities(parent, args, context, info) {

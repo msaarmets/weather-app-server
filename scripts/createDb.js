@@ -6,6 +6,7 @@ const db = new sqlite().db;
 const tableQuery = `CREATE TABLE IF NOT EXISTS "cities" (
 	"id" INTEGER PRIMARY KEY NOT NULL,
 	"name" TEXT,
+	"country" TEXT,
 	"temp" TEXT,
 	"wind" TEXT,
 	"humidity" TEXT,
