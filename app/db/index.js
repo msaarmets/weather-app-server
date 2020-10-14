@@ -1,6 +1,6 @@
 const path = require("path");
 const dbPath = path.resolve(__dirname, "sqlite3.db");
-const sqlite3 = require("sqlite3"); /* .verbose() */
+const sqlite3 = require("sqlite3").verbose();
 
 class sqlite {
 	constructor() {
@@ -11,6 +11,8 @@ class sqlite {
 			console.log("Connected to the database.");
 		});
 	}
+
+	/** Method to make universal queries */
 
 	sqlQuery = (type, query, params) => {
 		return new Promise((resolve, reject) => {
@@ -37,12 +39,36 @@ class sqlite {
 						break;
 				}
 			} catch (e) {
-				reject("Database query error: ", e);
+				reject(e);
 			}
 		});
 	};
 
 	close = () => this.db.close();
+
+	/** Most used queries as methods */
+
+	getAllCities = () => {
+		return new Promise(async (resolve, reject) => {
+			const res = await this.sqlQuery(
+				"SELECT",
+				"SELECT id, name, country, temp, wind, humidity FROM cities",
+				[]
+			);
+			resolve(res);
+		});
+	};
+
+	getCityById = id => {
+		return new Promise(async (resolve, reject) => {
+			const res = await this.sqlQuery(
+				"SELECT",
+				"SELECT id, name, country, temp, wind, humidity FROM cities WHERE id=?",
+				[id]
+			);
+			resolve(res);
+		});
+	};
 }
 
 module.exports = sqlite;

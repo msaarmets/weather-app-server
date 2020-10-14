@@ -1,5 +1,5 @@
 const cityList = require("../city.list.json");
-const { AddCity, RemoveCity } = require("./mutations");
+const { AddCity, RemoveCity, RefetchData } = require("./mutations");
 const { Cities, Countries } = require("./queries");
 
 const resolvers = {
@@ -9,7 +9,8 @@ const resolvers = {
 	},
 	Mutation: {
 		AddCity,
-		RemoveCity
+		RemoveCity,
+		RefetchData
 	},
 	Country: {
 		cities(parent, args, context, info) {

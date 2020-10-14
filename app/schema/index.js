@@ -20,6 +20,7 @@ const typeDefs = gql`
 	type Mutation {
 		AddCity(city: String!, country: String!): City
 		RemoveCity(id: ID!): Boolean
+		RefetchData: [City]
 	}
 `;
 

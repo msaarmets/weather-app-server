@@ -16,12 +16,7 @@ const AddCity = async (parent, args, context, info) => {
 	}
 
 	// Get weather data from API
-	const data = await getCityWeather(args.city, args.country);
-	let weatherData = {
-		temp: data && data.main ? data.main.temp : "",
-		humidity: data && data.main ? data.main.humidity : "",
-		windSpeed: data && data.main ? data.wind.speed : ""
-	};
+	const weatherData = await getCityWeather(args.city, args.country);
 
 	// Insert city to the database
 	const id = await db.sqlQuery(
@@ -37,11 +32,7 @@ const AddCity = async (parent, args, context, info) => {
 	);
 
 	// Get the values for the response
-	const res = await db.sqlQuery(
-		"SELECT",
-		"SELECT id, name, country, temp, wind, humidity FROM cities WHERE id=?",
-		[id]
-	);
+	const res = await db.getCityById(id);
 
 	db.close();
 
@@ -69,10 +60,47 @@ const RemoveCity = async (parent, args, context, info) => {
 		}
 	} catch (e) {
 		return new Error(e.message);
+	} finally {
+		db.close();
 	}
+};
+
+const RefetchData = async () => {
+	const db = new sqlite();
+	// Get the list of all cities in the database
+	const cities = await db.getAllCities();
+
+	// Get the weather information for every city and save the data to the database
+	const updateCities = () =>
+		new Promise((resolve, reject) =>
+			cities.forEach(async (city, index) => {
+				try {
+					const data = await getCityWeather(city.name, city.country);
+					await db.sqlQuery(
+						"UPDATE",
+						"UPDATE cities SET temp = ?,  wind = ?,  humidity = ? WHERE id = ?;",
+						[data.temp, data.windSpeed, data.humidity, city.id]
+					);
+					return;
+				} catch (e) {
+					console.error("Error updating weather information: ", e);
+					reject(e);
+				} finally {
+					if (index === cities.length - 1) resolve();
+				}
+			})
+		);
+
+	await updateCities();
+
+	// Get the updated data from database and return it
+	const res = await db.getAllCities();
+	db.close();
+	return res;
 };
 
 module.exports = {
 	AddCity,
-	RemoveCity
+	RemoveCity,
+	RefetchData
 };

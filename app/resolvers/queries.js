@@ -2,15 +2,8 @@ const sqlite = require("../db");
 const cityList = require("../city.list.json");
 
 const Cities = async () => {
-	const db = new sqlite();
-
 	// Get the list of all cities
-	let list = await db.sqlQuery(
-		"SELECT",
-		"SELECT id, name, country, temp, wind, humidity FROM cities",
-		[]
-	);
-
+	let list = await db.getAllCities();
 	return list;
 };
 
