@@ -41,6 +41,7 @@ const AddCity = async (parent, args, context, info) => {
 		: {
 				id: res[0].id,
 				name: res[0].name,
+				country: res[0].country,
 				temp: res[0].temp,
 				wind: res[0].wind,
 				humidity: res[0].humidity

@@ -3,7 +3,9 @@ const cityList = require("../city.list.json");
 
 const Cities = async () => {
 	// Get the list of all cities
+	const db = new sqlite();
 	let list = await db.getAllCities();
+	db.close();
 	return list;
 };
 

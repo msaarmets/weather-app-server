@@ -7,19 +7,23 @@
 	"private": false,
 	"scripts": {
 		"start": "nodemon app/app.js",
-		"test": "echo \"Error: no test specified\" && exit 1",
+		"test": "mocha ./test/tests.js",
 		"initDb": "node scripts/createDb.js",
 		"downloadCitiesList": "node scripts/downloadCitiesList.js",
 		"initialize": "yarn install && yarn initDb && yarn downloadCitiesList"
 	},
 	"dependencies": {
 		"apollo-server": "^2.18.2",
+		"apollo-server-testing": "^2.18.2",
 		"axios": "^0.20.0",
 		"dotenv": "^8.2.0",
 		"graphql": "^15.3.0",
 		"sqlite3": "^5.0.0"
 	},
 	"devDependencies": {
+		"chai": "^4.2.0",
+		"chai-graphql": "^4.0.0",
+		"mocha": "^8.1.3",
 		"nodemon": "^2.0.4"
 	}
 }

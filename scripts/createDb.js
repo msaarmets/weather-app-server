@@ -47,6 +47,7 @@ const createTrigger = () =>
 
 const run = async () => {
 	const table = await createTable();
+
 	if (table) {
 		createTrigger();
 	} else {
@@ -55,3 +56,5 @@ const run = async () => {
 };
 
 run();
+
+module.exports = run;

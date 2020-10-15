@@ -1,14 +1,17 @@
 const path = require("path");
-const dbPath = path.resolve(__dirname, "sqlite3.db");
 const sqlite3 = require("sqlite3").verbose();
+// Use different database for unit tests
+const dbFilename =
+	process.env.NODE_ENV == "test" ? "sqlite3_test.db" : "sqlite3.db";
 
 class sqlite {
 	constructor() {
+		const dbPath = path.resolve(__dirname, dbFilename);
 		this.db = new sqlite3.Database(dbPath, err => {
 			if (err) {
 				console.error(err.message);
 			}
-			console.log("Connected to the database.");
+			console.log("Connected to the database");
 		});
 	}
 
