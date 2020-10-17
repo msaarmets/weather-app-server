@@ -1,8 +1,9 @@
 const sqlite = require("../db");
 const cityList = require("../city.list.json");
+const countryCodes = require("../utils/countryCodes.json");
 
 const Cities = async () => {
-	// Get the list of all cities
+	// Get the list of all cities from database
 	const db = new sqlite();
 	let list = await db.getAllCities();
 	db.close();
@@ -10,24 +11,24 @@ const Cities = async () => {
 };
 
 const Countries = (parent, args, context, info) => {
-	let list = [];
+	let countries = {};
+
+	// Generate object by country codes
 	cityList.forEach(el => {
-		// Exclude duplicates
-		if (!list.includes(el.country)) {
-			// If "country" argument is provided use it as a filter
-			if (args.country && args.country === el.country) {
-				list.push(el.country);
-			}
-			// Else return all countries
-			else if (!args.country) {
-				list.push(el.country);
-			}
-		}
+		countries[el.country] = countries[el.country] ? countries[el.country] : {};
+		if (!countries[el.country]["short"])
+			countries[el.country]["short"] = el.country;
+		if (!countries[el.country]["long"])
+			countries[el.country]["long"] = countryCodes[el.country];
 	});
 
-	return list.map(el => {
-		return { name: el };
-	});
+	if (args.country) {
+		return [countries[args.country]];
+	} else
+		return Object.values(countries).map(country => ({
+			short: country.short,
+			long: country.long
+		}));
 };
 
 module.exports = {
