@@ -4,8 +4,9 @@ const { typeDefs } = require("./schema");
 const { resolvers } = require("./resolvers");
 
 const server = new ApolloServer({ typeDefs, resolvers });
+const port = process.env.PORT || 4000;
 
-server.listen().then(({ url }) => {
+server.listen(port).then(({ url }) => {
 	console.log(`🚀  Server ready at ${url}`);
 });
 
