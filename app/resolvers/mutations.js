@@ -49,8 +49,9 @@ const AddCity = async (parent, args, context, info) => {
 };
 
 const RemoveCity = async (parent, args, context, info) => {
+	const db = new sqlite();
+
 	try {
-		const db = new sqlite();
 		const res = await db.sqlQuery("DELETE", "DELETE FROM cities WHERE id=?", [
 			args.id
 		]);

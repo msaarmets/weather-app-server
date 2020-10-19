@@ -11,7 +11,7 @@ class sqlite {
 			if (err) {
 				console.error(err.message);
 			}
-			console.log("Connected to the database");
+			// console.log("Connected to the database");
 		});
 	}
 
@@ -55,7 +55,7 @@ class sqlite {
 		return new Promise(async (resolve, reject) => {
 			const res = await this.sqlQuery(
 				"SELECT",
-				"SELECT id, name, country, temp, wind, humidity FROM cities",
+				"SELECT id, name, country, temp, wind, humidity FROM cities ORDER BY name",
 				[]
 			);
 			resolve(res);

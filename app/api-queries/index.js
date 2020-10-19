@@ -6,7 +6,8 @@ const getCityWeather = (city, country) =>
 	new Promise(async (resolve, reject) => {
 		try {
 			console.log("Requesting data for:", city);
-			const response = await axios.get(`${API_URL}&q=${city}, ${country}`);
+			const url = encodeURI(`${API_URL}&q=${city}, ${country}`);
+			const response = await axios.get(url);
 
 			if (response.status === 200) {
 				const data = response.data;
@@ -22,7 +23,6 @@ const getCityWeather = (city, country) =>
 				reject(new Error("Error getting weather information"));
 			}
 		} catch (e) {
-			const err = e.toJSON();
 			console.error("getCityWeather error: ", e);
 			if (e.response && e.response.data.message === "city not found") {
 				reject(new Error("City not found "));
@@ -33,7 +33,7 @@ const getCityWeather = (city, country) =>
 					)
 				);
 			}
-			reject(new Error(`Weather API error: ${err.message}`));
+			reject(new Error(`Weather API error: ${e.message}`));
 		}
 	});
 
